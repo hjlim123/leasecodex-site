@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lease Renewal Notice Deadline Calculator (+ Calendar Reminder) | LeaseCodex</title>
+<meta name="description" content="Free calculator: enter your lease expiration date and notice period to get the exact renewal notice deadline — and download a calendar reminder (.ics) so you never miss it.">
+<link rel="canonical" href="https://leasecodex.com/renewal-notice-calculator">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1F3B57;--navy-d:#16293d;--clay:#B87A5E;--clay-d:#93583f;--cream:#F6F1E8;--ink:#232323;--gray:#5f5e5a;--line:#e6e1d6;--red:#b3382c;--orange:#b06a1f;--green:#2f7d4f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,system-ui,sans-serif;color:var(--ink);line-height:1.7;background:#fff}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--line);background:#fff}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:64px;max-width:1020px;margin:0 auto;padding:0 24px}
+  .logo{font-weight:700;font-size:20px;color:var(--navy);text-decoration:none}.logo span{color:var(--clay)}
+  .nav a.cta{background:var(--navy);color:#fff;padding:9px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
+  h1{font-size:clamp(26px,4.5vw,36px);color:var(--navy);letter-spacing:-.8px;line-height:1.2;margin:48px 0 10px}
+  .sub{color:var(--gray);margin-bottom:28px}
+  h2{font-size:22px;color:var(--navy);margin:38px 0 10px}
+  p{margin-bottom:14px}
+  .calc{background:var(--cream);border-radius:16px;padding:28px}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .field{flex:1;min-width:200px}
+  label{display:block;font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:6px}
+  input,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit;background:#fff}
+  .btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;border:none;background:var(--clay);color:#fff}
+  .btn:hover{background:var(--clay-d)}
+  #results{display:none;margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+  .res-line{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px;flex-wrap:wrap}
+  .res-line:last-child{border-bottom:none}
+  .res-line strong{color:var(--navy)}
+  #urgency{font-weight:700}
+  .ics-btn{margin-top:16px}
+  .note{font-size:12.5px;color:var(--gray);margin-top:14px}
+  ul{margin:0 0 16px 24px}
+  li{margin-bottom:6px}
+  .callout{background:var(--cream);border-left:4px solid var(--clay);padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0;font-size:15px}
+  .cta-box{background:var(--navy);color:#fff;border-radius:16px;padding:28px;text-align:center;margin:36px 0}
+  .cta-box h2{color:#fff;margin-top:0}
+  .cta-box p{color:#cdd8e4}
+  footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--gray);text-align:center;margin-top:44px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../">Lease<span>Codex</span></a>
+    <a class="cta" href="../lease-abstract-template/">Free template</a>
+  </div>
+</header>
+
+<article class="wrap">
+  <h1>Lease Renewal Notice Deadline Calculator</h1>
+  <p class="sub">Enter your lease expiration and the notice period from your renewal clause. Get the exact deadline — and a calendar reminder so it never slips.</p>
+
+  <div class="calc">
+    <div class="row">
+      <div class="field">
+        <label for="exp">Lease expiration date</label>
+        <input type="date" id="exp">
+      </div>
+      <div class="field">
+        <label for="notice">Notice required at least</label>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="notice" min="1" max="48" value="9" style="flex:1">
+          <select id="noticeUnit" style="flex:1.4">
+            <option value="months" selected>months before expiration</option>
+            <option value="days">days before expiration</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="earliest">Notice window opens (optional — "no earlier than")</label>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="earliest" min="0" max="60" placeholder="e.g. 12" style="flex:1">
+          <span style="align-self:center;font-size:14px;color:var(--gray)">months before expiration</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="tenant">Label (optional, for the reminder)</label>
+        <input type="text" id="tenant" placeholder="e.g. Suite 210 — Han's Coffee">
+      </div>
+    </div>
+    <button class="btn" id="calcBtn">Calculate deadline</button>
+
+    <div id="results">
+      <div class="res-line"><span>Latest day to give notice (deadline)</span><strong id="deadline">—</strong></div>
+      <div class="res-line" id="windowLine" style="display:none"><span>Notice window opens</span><strong id="windowOpen">—</strong></div>
+      <div class="res-line"><span>Days until deadline</span><strong id="daysLeft">—</strong></div>
+      <div class="res-line"><span>Status</span><span id="urgency">—</span></div>
+      <button class="btn ics-btn" id="icsBtn">📅 Download calendar reminder (.ics)</button>
+      <p class="note">The .ics adds two all-day events to Outlook / Google / Apple Calendar: a 60-day heads-up and the deadline itself, each with an alert.</p>
+    </div>
+  </div>
+
+  <h2>How renewal notice deadlines work</h2>
+  <p>Most commercial lease renewal options require written notice within a specific window — typically "no less than 9 and no more than 12 months prior to the expiration of the Term." Two dates matter:</p>
+  <ul>
+    <li><strong>The deadline</strong> (latest notice date): expiration minus the minimum notice period. Miss it and the option usually lapses automatically — no grace, no cure.</li>
+    <li><strong>The window opening</strong> (earliest notice date), if your clause has a "no earlier than" limit: notice given too early can be invalid too.</li>
+  </ul>
+  <div class="callout"><strong>Check the fine print:</strong> some leases count calendar months, some count days; some require notice by certified mail or to a specific address; and amendments frequently change the notice terms. Always verify against the controlling document — this calculator is an administrative aid, not legal advice.</div>
+
+  <h2>Why missed notice windows are so expensive</h2>
+  <p>A lapsed renewal option transfers leverage instantly. A tenant loses a below-market renewal rate and negotiates from zero; a landlord expecting a vacancy loses a year of planning. It is the single most expensive blank cell in lease administration — and it's entirely preventable with a tracked date.</p>
+
+  <div class="cta-box">
+    <h2>Tracking more than one lease?</h2>
+    <p>Get the free Lease Abstract + Critical Dates Tracker — a 24-field abstract template plus a portfolio deadline tracker with automatic urgency flags.</p>
+    <a class="btn" href="../lease-abstract-template/">Get the free template →</a>
+  </div>
+
+  <p style="font-size:13px;color:var(--gray)"><em>This tool runs entirely in your browser — no lease data is sent anywhere. Administrative aid, not legal advice.</em></p>
+</article>
+
+<footer>
+  <div class="wrap">
+    <p><strong style="color:var(--navy)">LeaseCodex</strong> · <a href="../" style="color:var(--gray)">Home</a> · <a href="../lease-abstract-template/" style="color:var(--gray)">Free template</a> · <a href="../how-to-abstract-a-commercial-lease/" style="color:var(--gray)">How to abstract a lease</a></p>
+    <p style="margin-top:6px">Administrative tool, not legal advice. Always verify against the signed lease.</p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How do I calculate a lease renewal notice deadline?","acceptedAnswer":{"@type":"Answer","text":"Subtract the minimum notice period in your renewal clause from the lease expiration date. For example, a lease expiring August 31, 2031 with a 9-month notice requirement has a notice deadline of November 30, 2030. If the clause also says notice may be given no earlier than a set number of months before expiration, that defines when the notice window opens."}},
+ {"@type":"Question","name":"What happens if I miss the renewal notice deadline?","acceptedAnswer":{"@type":"Answer","text":"In most commercial leases the option lapses automatically once the notice deadline passes — there is typically no grace period. The tenant loses the contractual right to renew on the option terms and must renegotiate from scratch."}}]}
+</script>
+<script>
+function clampDay(y, m, d) {
+  const last = new Date(y, m + 1, 0).getDate();
+  return new Date(y, m, Math.min(d, last));
+}
+function subtractMonths(date, months) {
+  const y = date.getFullYear(), m = date.getMonth(), d = date.getDate();
+  const total = m - months;
+  const ny = y + Math.floor(total / 12), nm = ((total % 12) + 12) % 12;
+  return clampDay(ny, nm, d);
+}
+function fmt(d) {
+  return d.toLocaleDateString("en-US", { weekday: "short", year: "numeric", month: "long", day: "numeric" });
+}
+function icsDate(d) {
+  return d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+}
+let state = null;
+document.getElementById("calcBtn").addEventListener("click", () => {
+  const expVal = document.getElementById("exp").value;
+  if (!expVal) { alert("Enter the lease expiration date."); return; }
+  const exp = new Date(expVal + "T00:00:00");
+  const n = parseInt(document.getElementById("notice").value || "0", 10);
+  if (!n) { alert("Enter the notice period."); return; }
+  const unit = document.getElementById("noticeUnit").value;
+  const deadline = unit === "months" ? subtractMonths(exp, n) : new Date(exp.getTime() - n * 86400000);
+  const earliestMonths = parseInt(document.getElementById("earliest").value || "0", 10);
+  const windowOpen = earliestMonths ? subtractMonths(exp, earliestMonths) : null;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const days = Math.round((deadline - today) / 86400000);
+  const u = document.getElementById("urgency");
+  if (days < 0) { u.textContent = "OVERDUE — the deadline has passed"; u.style.color = "var(--red)"; }
+  else if (days <= 30) { u.textContent = "URGENT — within 30 days"; u.style.color = "var(--red)"; }
+  else if (days <= 90) { u.textContent = "Act soon — within 90 days"; u.style.color = "var(--orange)"; }
+  else { u.textContent = "On track — add the reminder now"; u.style.color = "var(--green)"; }
+  document.getElementById("deadline").textContent = fmt(deadline);
+  document.getElementById("daysLeft").textContent = days.toLocaleString();
+  const wl = document.getElementById("windowLine");
+  if (windowOpen) { wl.style.display = "flex"; document.getElementById("windowOpen").textContent = fmt(windowOpen); }
+  else { wl.style.display = "none"; }
+  state = { exp, deadline, windowOpen, label: document.getElementById("tenant").value.trim() };
+  document.getElementById("results").style.display = "block";
+});
+document.getElementById("icsBtn").addEventListener("click", () => {
+  if (!state) return;
+  const label = state.label ? state.label + " — " : "";
+  const headsUp = new Date(state.deadline.getTime() - 60 * 86400000);
+  const stamp = new Date().toISOString().replace(/[-:.]/g, "").slice(0, 15) + "Z";
+  function ev(uid, date, summary, desc) {
+    const end = new Date(date.getTime() + 86400000);
+    return ["BEGIN:VEVENT", "UID:" + uid + "@leasecodex.com", "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + icsDate(date), "DTEND;VALUE=DATE:" + icsDate(end),
+      "SUMMARY:" + summary, "DESCRIPTION:" + desc,
+      "BEGIN:VALARM", "TRIGGER:-PT9H", "ACTION:DISPLAY", "DESCRIPTION:" + summary, "END:VALARM",
+      "END:VEVENT"].join("\r\n");
+  }
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//LeaseCodex//Renewal Calculator//EN",
+    ev("lc-heads-" + icsDate(headsUp), headsUp, label + "Renewal notice deadline in 60 days",
+      "Deadline " + fmt(state.deadline) + ". Prepare the renewal decision and notice. Generated by leasecodex.com"),
+    ev("lc-dead-" + icsDate(state.deadline), state.deadline, label + "LEASE RENEWAL NOTICE DEADLINE",
+      "Last day to give renewal notice (lease expires " + fmt(state.exp) + "). Verify method and address in the lease. Generated by leasecodex.com"),
+    "END:VCALENDAR"].join("\r\n");
+  const blob = new Blob([lines], { type: "text/calendar" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "lease-renewal-notice-deadline.ics";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+</script>
+</body>
+</html>
