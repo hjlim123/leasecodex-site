@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lease Abstraction Software for Small Property Teams | LeaseCodex</title>
+<meta name="description" content="Turn commercial lease PDFs into review-ready abstracts with source-page references, plus automatic critical-date tracking. Free lease abstract template inside.">
+<meta property="og:title" content="LeaseCodex — Lease abstracts your team can actually trust">
+<meta property="og:description" content="Review-ready lease abstracts with source-page references + a live critical-dates tracker. Built for small property teams. No sales call.">
+<meta property="og:url" content="https://leasecodex.com">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://leasecodex.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3B57; --navy-d:#16293d; --clay:#B87A5E; --clay-d:#93583f;
+    --cream:#F6F1E8; --ink:#232323; --gray:#5f5e5a; --line:#e6e1d6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,system-ui,sans-serif;color:var(--ink);line-height:1.6;background:#fff}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:10}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:64px}
+  .logo{font-weight:700;font-size:20px;color:var(--navy);text-decoration:none;letter-spacing:-.3px}
+  .logo span{color:var(--clay)}
+  .nav a.cta{background:var(--navy);color:#fff;padding:9px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
+  .nav a.cta:hover{background:var(--navy-d)}
+  .hero{background:var(--cream);padding:76px 0 64px;text-align:center}
+  .hero h1{font-size:clamp(30px,5vw,46px);font-weight:700;color:var(--navy);letter-spacing:-1px;line-height:1.15;max-width:760px;margin:0 auto 18px}
+  .hero p.sub{font-size:18px;color:var(--gray);max-width:680px;margin:0 auto 30px}
+  .btn{display:inline-block;padding:14px 26px;border-radius:10px;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;border:none}
+  .btn-primary{background:var(--clay);color:#fff}
+  .btn-primary:hover{background:var(--clay-d)}
+  .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy);margin-left:12px}
+  .btn-ghost:hover{background:var(--navy);color:#fff}
+  .trust{font-size:13px;color:var(--gray);margin-top:18px}
+  section{padding:64px 0}
+  h2{font-size:clamp(24px,3.5vw,32px);color:var(--navy);letter-spacing:-.5px;margin-bottom:14px;text-align:center}
+  .lede{text-align:center;color:var(--gray);max-width:640px;margin:0 auto 40px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px}
+  .card h3{font-size:17px;color:var(--navy);margin-bottom:8px}
+  .card p{font-size:14.5px;color:var(--gray)}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;counter-reset:step}
+  .step{background:var(--cream);border-radius:12px;padding:24px;position:relative}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:20px;width:28px;height:28px;border-radius:50%;background:var(--clay);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:16px;color:var(--navy);margin:6px 0 6px}
+  .step p{font-size:14px;color:var(--gray)}
+  .compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:34px}
+  .comp{border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center;font-size:14px;color:var(--gray)}
+  .comp strong{display:block;color:var(--navy);font-size:15px;margin-bottom:4px}
+  .comp.win{border:2px solid var(--clay);background:#fdf8f4}
+  .comp.win strong{color:var(--clay-d)}
+  .magnet{background:var(--navy);color:#fff;border-radius:18px;padding:52px 40px;text-align:center}
+  .magnet h2{color:#fff}
+  .magnet p{color:#cdd8e4;max-width:620px;margin:0 auto 28px}
+  .form-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .form-row input{padding:14px 16px;border-radius:10px;border:none;font-size:15px;min-width:280px;font-family:inherit}
+  #dl-ready{display:none;margin-top:22px}
+  #dl-ready a{color:#fff;background:var(--clay);padding:13px 24px;border-radius:10px;text-decoration:none;font-weight:600}
+  .fine{font-size:12.5px;color:#9fb0c1;margin-top:16px}
+  details{border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:10px}
+  summary{font-weight:600;color:var(--navy);cursor:pointer;font-size:15.5px}
+  details p{margin-top:10px;font-size:14.5px;color:var(--gray)}
+  footer{border-top:1px solid var(--line);padding:36px 0;font-size:13px;color:var(--gray);text-align:center}
+  .alt{background:var(--cream)}
+  @media(max-width:560px){.btn-ghost{margin-left:0;margin-top:10px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="./">Lease<span>Codex</span></a>
+    <a class="cta" href="#template">Free template</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Lease abstracts your team can actually trust.</h1>
+    <p class="sub">LeaseCodex turns commercial lease PDFs into review-ready abstracts — every field linked to its source page — plus a live tracker for renewal notices, escalations, and expirations. Built for small property teams. No sales call.</p>
+    <a class="btn btn-primary" href="#template">Get the free Lease Abstract Template →</a>
+    <a class="btn btn-ghost" href="#sample">Get a free sample abstract</a>
+    <p class="trust">Not legal advice — a faster first pass before human review.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The lease-tracking problem every small team knows</h2>
+    <div class="grid3" style="margin-top:34px">
+      <div class="card"><h3>Abstraction eats days</h3><p>A 60-page lease becomes 3 hours of Ctrl+F and retyping into Excel — per lease, per amendment.</p></div>
+      <div class="card"><h3>Missed deadlines cost real money</h3><p>One forgotten renewal-notice window can lock a bad tenant in — or a good one out.</p></div>
+      <div class="card"><h3>AI-only tools aren't trusted</h3><p>A spreadsheet of unverified AI guesses is worse than nothing. If you can't trace a value to the lease, you can't rely on it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lede">The workflow mirrors how a careful lease administrator already works — just 10× faster.</p>
+    <div class="steps">
+      <div class="step"><h3>Upload</h3><p>Drop in the lease PDF — scans included.</p></div>
+      <div class="step"><h3>Review</h3><p>Every extracted field sits beside its source page. Confirm or correct in one click; low-confidence fields are flagged.</p></div>
+      <div class="step"><h3>Track</h3><p>Renewal notices, escalations, options, and expirations land in one portfolio view with urgency flags.</p></div>
+      <div class="step"><h3>Export</h3><p>Out to the exact spreadsheet format your team already uses.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Verification is the product</h2>
+    <p class="lede">Every value shows where in the lease it came from. Confirm it in seconds, correct it if needed. Your abstract ends 100% human-verified — without starting from a blank sheet.</p>
+    <div class="compare">
+      <div class="comp"><strong>Manual abstraction</strong>2–4 hours per lease</div>
+      <div class="comp"><strong>Offshore services</strong>$50–150/lease, days of turnaround</div>
+      <div class="comp"><strong>Enterprise AI suites</strong>$500+/mo and a procurement cycle</div>
+      <div class="comp win"><strong>LeaseCodex</strong>Minutes. Self-serve. Source-verified.</div>
+    </div>
+  </div>
+</section>
+
+<section id="template">
+  <div class="wrap">
+    <div class="magnet">
+      <h2>Start with the free template</h2>
+      <p>The exact Lease Abstract + Critical Dates Tracker format LeaseCodex exports into: a 24-field abstract with source-page and verification columns, a portfolio deadline tracker with automatic urgency flags, and a rent schedule calculator.</p>
+      <form id="capture" class="form-row">
+        <input type="email" id="email" name="email" placeholder="you@yourcompany.com" required>
+        <button class="btn btn-primary" type="submit">Send me the template</button>
+      </form>
+      <div id="dl-ready">
+        <p style="margin-bottom:14px">✓ You're in — download away:</p>
+        <a href="LeaseCodex_Lease_Abstract_Template.xlsx" download>Download the template (.xlsx)</a>
+      </div>
+      <p class="fine">Free to use and share. We'll send occasional, genuinely useful lease-admin notes — unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="sample">
+  <div class="wrap" style="text-align:center">
+    <h2>Want it filled in automatically?</h2>
+    <p class="lede">Send one non-sensitive lease (or a standard form lease) and we'll return a finished abstract — 24 fields, source-page references, critical dates. Free, no strings. If the format saves you time, great; if not, keep the abstract.</p>
+    <a class="btn btn-primary" href="mailto:hello@leasecodex.com?subject=Free%20sample%20abstract&body=Attach%20one%20non-sensitive%20lease%20PDF%20and%20we%27ll%20send%20back%20a%20finished%20abstract.">Email a sample lease →</a>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:760px">
+    <h2>Questions, answered plainly</h2>
+    <div style="margin-top:30px">
+      <details><summary>Is this legal advice?</summary><p>No. LeaseCodex produces review-ready administrative summaries for human review. It does not interpret leases, replace counsel, or provide legal advice. Always verify against the signed lease and consult your attorney for legal questions.</p></details>
+      <details><summary>What documents does it handle?</summary><p>Commercial leases and amendments as PDFs — including scanned documents. Office, retail, industrial, and mixed-use.</p></details>
+      <details><summary>How accurate is it?</summary><p>Every field carries a confidence flag, and every value links to its source page so you can verify it in seconds. Nothing enters your tracker unreviewed — that's the point.</p></details>
+      <details><summary>Where does my data go?</summary><p>Your documents stay private and encrypted, are never used to train shared models, and can be deleted at any time.</p></details>
+      <details><summary>What does it cost?</summary><p>Free while in pilot. Early teams lock founding pricing before public launch.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong style="color:var(--navy)">LeaseCodex</strong> — built by the team behind StructifyData. · <a href="lease-abstract-template/" style="color:var(--gray)">Free template</a> · <a href="how-to-abstract-a-commercial-lease/" style="color:var(--gray)">How to abstract a lease</a></p>
+    <p style="margin-top:6px">Administrative tool, not legal advice. Always verify against the signed lease. · hello@leasecodex.com</p>
+  </div>
+</footer>
+
+<script>
+/* Email capture.
+   SETUP (2 min): create a free form at https://formspree.io → paste your endpoint below.
+   Until configured, the form still reveals the download so no visitor is ever lost. */
+const FORM_ENDPOINT = ""; // e.g. "https://formspree.io/f/abcdwxyz"
+document.getElementById("capture").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  if (FORM_ENDPOINT) {
+    try {
+      await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, source: "template-download" })
+      });
+    } catch (_) { /* still reveal download */ }
+  }
+  document.getElementById("capture").style.display = "none";
+  document.getElementById("dl-ready").style.display = "block";
+});
+</script>
+</body>
+</html>
