@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rent Escalation Calculator — Fixed % Annual Increases, Full Schedule | LeaseCodex</title>
+<meta name="description" content="Free rent escalation calculator: enter starting rent, annual increase percentage, and term to get the full year-by-year rent schedule with totals. Runs in your browser.">
+<link rel="canonical" href="https://leasecodex.com/rent-escalation-calculator">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1F3B57;--navy-d:#16293d;--clay:#B87A5E;--clay-d:#93583f;--cream:#F6F1E8;--ink:#232323;--gray:#5f5e5a;--line:#e6e1d6}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,system-ui,sans-serif;color:var(--ink);line-height:1.7;background:#fff}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--line);background:#fff}
+  .nav{display:flex;justify-content:space-between;align-items:center;height:64px;max-width:1020px;margin:0 auto;padding:0 24px}
+  .logo{font-weight:700;font-size:20px;color:var(--navy);text-decoration:none}.logo span{color:var(--clay)}
+  .nav a.cta{background:var(--navy);color:#fff;padding:9px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
+  h1{font-size:clamp(26px,4.5vw,36px);color:var(--navy);letter-spacing:-.8px;line-height:1.2;margin:48px 0 10px}
+  .sub{color:var(--gray);margin-bottom:28px}
+  h2{font-size:22px;color:var(--navy);margin:38px 0 10px}
+  p{margin-bottom:14px}
+  ul{margin:0 0 16px 24px}
+  li{margin-bottom:6px}
+  .calc{background:var(--cream);border-radius:16px;padding:28px}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .field{flex:1;min-width:170px}
+  label{display:block;font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:6px}
+  input,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit;background:#fff}
+  .btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;border:none;background:var(--clay);color:#fff}
+  .btn:hover{background:var(--clay-d)}
+  #results{display:none;margin-top:22px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;background:#fff;border-radius:10px;overflow:hidden}
+  th{background:var(--navy);color:#fff;text-align:right;padding:9px 12px;font-weight:600}
+  th:first-child{text-align:left}
+  td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+  td:first-child{text-align:left}
+  tr.total td{font-weight:700;color:var(--navy);border-top:2px solid var(--navy)}
+  .callout{background:var(--cream);border-left:4px solid var(--clay);padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0;font-size:15px}
+  .cta-box{background:var(--navy);color:#fff;border-radius:16px;padding:28px;text-align:center;margin:36px 0}
+  .cta-box h2{color:#fff;margin-top:0}
+  .cta-box p{color:#cdd8e4}
+  footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--gray);text-align:center;margin-top:44px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../">Lease<span>Codex</span></a>
+    <a class="cta" href="../lease-abstract-template/">Free template</a>
+  </div>
+</header>
+
+<article class="wrap">
+  <h1>Rent Escalation Calculator</h1>
+  <p class="sub">Enter the starting rent, the annual increase, and the term — get the full year-by-year schedule with monthly, annual, and cumulative totals. Runs entirely in your browser.</p>
+
+  <div class="calc">
+    <div class="row">
+      <div class="field">
+        <label for="rent">Starting rent</label>
+        <input type="number" id="rent" min="0" step="any" placeholder="e.g. 5700">
+      </div>
+      <div class="field">
+        <label for="rentType">Entered as</label>
+        <select id="rentType">
+          <option value="monthly" selected>$ per month</option>
+          <option value="annual">$ per year</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="esc">Annual escalation %</label>
+        <input type="number" id="esc" min="0" max="25" step="0.1" value="3">
+      </div>
+      <div class="field">
+        <label for="years">Term (years)</label>
+        <input type="number" id="years" min="1" max="30" value="5">
+      </div>
+    </div>
+    <button class="btn" id="calcBtn">Build the schedule</button>
+    <div id="results">
+      <table id="schedule" aria-label="Year-by-year rent schedule"></table>
+      <p style="font-size:12.5px;color:var(--gray);margin-top:12px">Assumes a fixed percentage increase on each lease anniversary, compounding annually — the most common structure. CPI-linked, stepped, and FMV-reset escalations work differently; abstract the exact clause language.</p>
+    </div>
+  </div>
+
+  <h2>How fixed rent escalations work</h2>
+  <p>Most commercial leases increase base rent by a fixed percentage on each anniversary of the commencement date. The increases compound: 3% annually on $5,700/month isn't $171 more each year — by year 5 the rent is $6,415/month, about 12.6% above where it started. Over a 10-year term, 3% annual escalations raise the final year's rent more than 30% above year one, which is why modeling the whole schedule — not just "3% a year" — matters for budgeting on both sides of the lease.</p>
+
+  <div class="callout"><strong>Abstract the mechanism, not just the number.</strong> "3% annually" and "3% annually on the anniversary of rent commencement, compounded" and "CPI with a 3% cap" produce different schedules. When abstracting a lease, capture the exact escalation language and its source page — it's one of the <a href="../lease-abstract-fields/">six most commonly fumbled fields</a>.</p></div>
+
+  <h2>Common escalation structures</h2>
+  <ul>
+    <li><strong>Fixed percentage</strong> — this calculator; predictable, compounds annually.</li>
+    <li><strong>Stepped schedule</strong> — explicit amounts per period, set in an exhibit ("$28.50 years 1–2, $29.75 years 3–5").</li>
+    <li><strong>CPI-linked</strong> — tied to inflation, often with a floor and/or cap; unpredictable by design.</li>
+    <li><strong>Fair-market reset</strong> — usually at renewal; the source of most renewal-option disputes.</li>
+  </ul>
+
+  <div class="cta-box">
+    <h2>Tracking a whole lease, not just the rent?</h2>
+    <p>The free LeaseCodex template abstracts all 24 key fields — rent schedule included — plus a critical-dates tracker with automatic urgency flags.</p>
+    <a class="btn" href="../lease-abstract-template/">Get the free template →</a>
+  </div>
+
+  <p style="font-size:13px;color:var(--gray)"><em>This tool runs entirely in your browser — nothing you enter leaves it. Administrative aid, not legal or financial advice.</em></p>
+</article>
+
+<footer>
+  <div class="wrap">
+    <p><strong style="color:var(--navy)">LeaseCodex</strong> · <a href="../" style="color:var(--gray)">Home</a> · <a href="../renewal-notice-calculator/" style="color:var(--gray)">Renewal deadline calculator</a> · <a href="../lease-abstract-template/" style="color:var(--gray)">Free template</a></p>
+    <p style="margin-top:6px">Administrative tool, not legal advice. Always verify against the signed lease.</p>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How do you calculate rent escalation?","acceptedAnswer":{"@type":"Answer","text":"For a fixed-percentage escalation, multiply the current rent by (1 + the escalation rate) on each lease anniversary. The increases compound: $5,700 per month at 3% annually becomes $5,871 in year two, $6,047 in year three, and about $6,415 by year five."}},
+ {"@type":"Question","name":"What is the most common rent escalation in commercial leases?","acceptedAnswer":{"@type":"Answer","text":"A fixed annual percentage increase — commonly 2.5% to 4% applied on each anniversary of commencement — is the most common structure. Alternatives include stepped schedules, CPI-linked increases with floors or caps, and fair-market resets at renewal."}}]}
+</script>
+<script>
+function money(n){return n.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0})}
+document.getElementById("calcBtn").addEventListener("click",()=>{
+  const raw=parseFloat(document.getElementById("rent").value);
+  if(!raw||raw<=0){alert("Enter the starting rent.");return}
+  const esc=(parseFloat(document.getElementById("esc").value)||0)/100;
+  const years=Math.min(30,Math.max(1,parseInt(document.getElementById("years").value)||1));
+  const monthly0=document.getElementById("rentType").value==="monthly"?raw:raw/12;
+  let rows='<tr><th>Year</th><th>Monthly rent</th><th>Annual rent</th><th>Increase</th><th>Cumulative</th></tr>';
+  let monthly=monthly0,cum=0;
+  for(let y=1;y<=years;y++){
+    if(y>1)monthly*=(1+esc);
+    const annual=monthly*12;cum+=annual;
+    const inc=y===1?"—":"+"+money(annual-monthly/(1+esc)*12);
+    rows+=`<tr><td>Year ${y}</td><td>${money(monthly)}</td><td>${money(annual)}</td><td>${inc}</td><td>${money(cum)}</td></tr>`;
+  }
+  const pct=years>1?((monthly/monthly0-1)*100).toFixed(1):"0";
+  rows+=`<tr class="total"><td>Total term</td><td colspan="2">final rent +${pct}% vs year 1</td><td colspan="2">${money(cum)}</td></tr>`;
+  document.getElementById("schedule").innerHTML=rows;
+  document.getElementById("results").style.display="block";
+});
+</script>
+</body>
+</html>
